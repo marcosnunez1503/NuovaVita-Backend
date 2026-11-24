@@ -11,3 +11,57 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Rol {
+  id            Int       @id @default(autoincrement())
+  nombre        String    @unique @db.VarChar(50)
+  descripcion   String?   @db.VarChar(200)
+  activo        Boolean   @default(true)
+  fechaCreacion DateTime  @default(now())
+  usuarios      Usuario[]
+}
+
+model Usuario {
+  id             Int      @id @default(autoincrement())
+  nombre         String   @db.VarChar(100)
+  correo         String   @unique @db.VarChar(150)
+  contrasenaHash String   @db.VarChar(255)
+  activo         Boolean  @default(true)
+  rolId          Int
+  fechaCreacion  DateTime @default(now())
+  rol            Rol      @relation(fields: [rolId], references: [id], onDelete: Restrict)
+}
+
+model Paciente {
+  id              Int       @id @default(autoincrement())
+  nombre          String    @db.VarChar(120)
+  dni             String    @unique @db.VarChar(8)
+  fechaNacimiento DateTime  @db.Date
+  fechaIngreso    DateTime  @db.Date
+  activo          Boolean   @default(true)
+  fechaCreacion   DateTime  @default(now())
+  informes        Informe[]
+}
+
+model Especialista {
+  id            Int       @id @default(autoincrement())
+  nombre        String    @db.VarChar(120)
+  especialidad  String    @db.VarChar(100)
+  matricula     String    @unique @db.VarChar(20)
+  correo        String    @unique @db.VarChar(150)
+  activo        Boolean   @default(true)
+  fechaCreacion DateTime  @default(now())
+  informes      Informe[]
+}
+
+model Informe {
+  id             Int          @id @default(autoincrement())
+  pacienteId     Int
+  especialistaId Int
+  fecha          DateTime     @db.Date
+  motivo         String       @db.VarChar(200)
+  detalle        String       @db.Text
+  fechaCreacion  DateTime     @default(now())
+  paciente       Paciente     @relation(fields: [pacienteId], references: [id], onDelete: Restrict)
+  especialista   Especialista @relation(fields: [especialistaId], references: [id], onDelete: Restrict)
+}
