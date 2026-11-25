@@ -6,9 +6,11 @@ import { UsersModule } from '../users/users.module.js';
 import { PacientesModule } from '../pacientes/pacientes.module.js';
 import { EspecialistasModule } from '../especialistas/especialistas.module.js';
 import { InformesModule } from '../informes/informes.module.js';
+import { PrismaModule } from '../prisma/prisma.module.js';
 
 @Module({
   imports: [
+    PrismaModule,
     AuthModule,
     UsersModule,
     PacientesModule,
