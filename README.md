@@ -1,114 +1,278 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Nuova Vita - Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST desarrollada para **Nuova Vita**, un sistema de gestión de pacientes, especialistas e informes. El proyecto fue realizado con NestJS, Prisma y PostgreSQL como parte de Programación IV.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+La API permite administrar los recursos principales del sistema, registrar usuarios, iniciar sesión y generar tokens JWT. Las solicitudes se validan mediante DTO y pueden probarse con Postman.
 
-## Description
+## Tecnologías utilizadas
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Node.js
+- TypeScript
+- NestJS
+- Prisma ORM
+- PostgreSQL
+- class-validator y class-transformer
+- bcrypt
+- JSON Web Token (JWT)
+- Postman
 
-## Project setup
+## Módulos del sistema
 
-```bash
-$ npm install
-```
+- **App:** punto de entrada de la aplicación.
+- **Auth:** registro e inicio de sesión.
+- **Users:** administración de usuarios.
+- **Pacientes:** gestión de pacientes.
+- **Especialistas:** gestión de especialistas.
+- **Informes:** gestión de informes y sus relaciones.
+- **Prisma:** conexión de la aplicación con PostgreSQL.
 
-## Compile and run the project
+## Requisitos previos
 
-```bash
-# development
-$ npm run start
+Antes de comenzar se necesita:
 
-# watch mode
-$ npm run start:dev
+- Node.js y npm.
+- PostgreSQL.
+- Una base de datos local creada.
+- Postman para probar los endpoints.
 
-# production mode
-$ npm run start:prod
-```
+## Instalación
 
-## Run tests
+1. Clonar el repositorio:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/marcosnunez1503/NuovaVita-Backend.git
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+2. Ingresar al proyecto:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+cd NuovaVita-Backend
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+3. Instalar las dependencias:
 
-## Observability
+```bash
+npm install
+```
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
+## Variables de entorno
 
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
+Crear un archivo `.env` en la raíz del proyecto:
 
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
+```env
+PORT=3000
+API_BASE_URL=http://localhost:3000
+DATABASE_URL="postgresql://USUARIO:CONTRASENA@localhost:5432/nuova_vita?schema=public"
+JWT_SECRET="una-clave-secreta"
+```
 
-## Resources
+Cada integrante debe utilizar sus propias credenciales de PostgreSQL y su propia clave JWT. El archivo `.env` no se sube al repositorio.
 
-Check out a few resources that may come in handy when working with NestJS:
+## Preparación de la base de datos
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observer](https://observer.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Validar el esquema de Prisma:
 
-## Support
+```bash
+npx prisma validate
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Generar Prisma Client:
 
-## Stay in touch
+```bash
+npx prisma generate
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Aplicar las migraciones existentes:
 
-## License
+```bash
+npx prisma migrate dev
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+La base contiene las tablas `Rol`, `Usuario`, `Paciente`, `Especialista` e `Informe`.
+
+### Rol inicial
+
+Para registrar usuarios debe existir al menos un rol. Se puede cargar desde pgAdmin utilizando el Query Tool:
+
+```sql
+INSERT INTO "Rol" ("nombre", "descripcion", "activo")
+VALUES ('Administración', 'Acceso administrativo al sistema', true);
+```
+
+El valor de `rolId` utilizado al registrar un usuario debe coincidir con el identificador de un rol existente.
+
+## Ejecución
+
+Ejecutar el proyecto en modo desarrollo:
+
+```bash
+npm run start:dev
+```
+
+La API quedará disponible en:
+
+```text
+http://localhost:3000
+```
+
+## Endpoints
+
+### Inicio
+
+| Método | Ruta | Descripción                           |
+| ------ | ---- | ------------------------------------- |
+| GET    | `/`  | Verifica que la API esté funcionando. |
+
+### Autenticación
+
+| Método | Ruta             | Descripción                      |
+| ------ | ---------------- | -------------------------------- |
+| POST   | `/auth/register` | Registra un usuario.             |
+| POST   | `/auth/login`    | Inicia sesión y devuelve un JWT. |
+
+Ejemplo de registro:
+
+```json
+{
+  "nombre": "María Pérez",
+  "correo": "maria@email.com",
+  "contrasena": "ClaveSegura123",
+  "rolId": 1,
+  "activo": true
+}
+```
+
+Ejemplo de inicio de sesión:
+
+```json
+{
+  "correo": "maria@email.com",
+  "contrasena": "ClaveSegura123"
+}
+```
+
+Las contraseñas se almacenan mediante un hash generado con bcrypt. Ni la contraseña ni su hash se incluyen en las respuestas de la API.
+
+### Usuarios
+
+| Método | Ruta         | Descripción              |
+| ------ | ------------ | ------------------------ |
+| GET    | `/users`     | Lista los usuarios.      |
+| GET    | `/users/:id` | Busca un usuario por ID. |
+| PATCH  | `/users/:id` | Actualiza un usuario.    |
+| DELETE | `/users/:id` | Elimina un usuario.      |
+
+El alta de usuarios se realiza únicamente mediante `/auth/register` para evitar operaciones duplicadas.
+
+### Pacientes
+
+| Método | Ruta             | Descripción               |
+| ------ | ---------------- | ------------------------- |
+| POST   | `/pacientes`     | Crea un paciente.         |
+| GET    | `/pacientes`     | Lista los pacientes.      |
+| GET    | `/pacientes/:id` | Busca un paciente por ID. |
+| PATCH  | `/pacientes/:id` | Actualiza un paciente.    |
+| DELETE | `/pacientes/:id` | Elimina un paciente.      |
+
+### Especialistas
+
+| Método | Ruta                 | Descripción                   |
+| ------ | -------------------- | ----------------------------- |
+| POST   | `/especialistas`     | Crea un especialista.         |
+| GET    | `/especialistas`     | Lista los especialistas.      |
+| GET    | `/especialistas/:id` | Busca un especialista por ID. |
+| PATCH  | `/especialistas/:id` | Actualiza un especialista.    |
+| DELETE | `/especialistas/:id` | Elimina un especialista.      |
+
+### Informes
+
+| Método | Ruta            | Descripción                                        |
+| ------ | --------------- | -------------------------------------------------- |
+| POST   | `/informes`     | Crea un informe.                                   |
+| GET    | `/informes`     | Lista los informes con su paciente y especialista. |
+| GET    | `/informes/:id` | Busca un informe por ID.                           |
+| PATCH  | `/informes/:id` | Actualiza un informe.                              |
+| DELETE | `/informes/:id` | Elimina un informe.                                |
+
+## Validación y respuestas
+
+Los datos recibidos se validan mediante DTO y un `ValidationPipe` global. Entre las respuestas principales se encuentran:
+
+- `200 OK`: consulta o actualización correcta.
+- `201 Created`: recurso creado correctamente.
+- `400 Bad Request`: datos inválidos o relación inexistente.
+- `401 Unauthorized`: credenciales incorrectas.
+- `404 Not Found`: recurso inexistente.
+- `409 Conflict`: dato único duplicado o eliminación impedida por una relación.
+
+## Comandos útiles
+
+```bash
+# Ejecutar en modo desarrollo
+npm run start:dev
+
+# Validar el código
+npm run lint
+
+# Compilar el proyecto
+npm run build
+
+# Validar el esquema de Prisma
+npx prisma validate
+
+# Generar Prisma Client
+npx prisma generate
+```
+
+## Estructura principal
+
+```text
+src/
+├── main.ts
+└── modules/
+    ├── app/
+    ├── auth/
+    ├── users/
+    ├── pacientes/
+    ├── especialistas/
+    ├── informes/
+    └── prisma/
+
+prisma/
+├── migrations/
+└── schema.prisma
+```
+
+## Estrategia de ramas
+
+- `main`: versión estable.
+- `dev`: integración del desarrollo.
+- `feature/*`: nuevas funcionalidades.
+- `fix/*`: correcciones.
+- `refactor/*`: reorganización del código.
+- `docs/*`: documentación.
+
+Los cambios se integran mediante commits descriptivos y Pull Requests.
+
+## Pruebas con Postman
+
+Las pruebas de la API se realizan con Postman. Se recomienda crear una variable de colección:
+
+```text
+baseUrl = http://localhost:3000
+```
+
+Las solicitudes pueden utilizar rutas como:
+
+```text
+{{baseUrl}}/pacientes
+{{baseUrl}}/especialistas
+{{baseUrl}}/informes
+{{baseUrl}}/auth/login
+```
+
+Se deben probar solicitudes válidas e inválidas para comprobar las operaciones CRUD, los DTO, las relaciones, el registro y el inicio de sesión.
+
+## Uso académico
+
+Proyecto desarrollado con fines académicos para la asignatura Programación IV.
