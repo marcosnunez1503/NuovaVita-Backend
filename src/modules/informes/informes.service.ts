@@ -1,26 +1,82 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service.js';
+import { isPrismaError } from '../prisma/prisma-error.util.js';
 import { CreateInformeDto } from './dto/create-informe.dto.js';
 import { UpdateInformeDto } from './dto/update-informe.dto.js';
 
 @Injectable()
 export class InformesService {
-  create(createInformeDto: CreateInformeDto) {
-    return 'This action adds a new informe';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createInformeDto: CreateInformeDto) {
+    try {
+      return await this.prisma.informe.create({
+        data: {
+          ...createInformeDto,
+          fecha: new Date(createInformeDto.fecha),
+        },
+        include: { paciente: true, especialista: true },
+      });
+    } catch (error) {
+      if (isPrismaError(error, 'P2003')) {
+        throw new BadRequestException(
+          'El paciente o el especialista indicado no existe.',
+        );
+      }
+      throw error;
+    }
   }
 
   findAll() {
-    return `This action returns all informes`;
+    return this.prisma.informe.findMany({
+      include: { paciente: true, especialista: true },
+      orderBy: { id: 'asc' },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} informe`;
+  async findOne(id: number) {
+    const informe = await this.prisma.informe.findUnique({
+      where: { id },
+      include: { paciente: true, especialista: true },
+    });
+
+    if (!informe) {
+      throw new NotFoundException(`No existe un informe con id ${id}.`);
+    }
+
+    return informe;
   }
 
-  update(id: number, updateInformeDto: UpdateInformeDto) {
-    return `This action updates a #${id} informe`;
+  async update(id: number, updateInformeDto: UpdateInformeDto) {
+    await this.findOne(id);
+
+    try {
+      return await this.prisma.informe.update({
+        where: { id },
+        data: {
+          ...updateInformeDto,
+          fecha: updateInformeDto.fecha
+            ? new Date(updateInformeDto.fecha)
+            : undefined,
+        },
+        include: { paciente: true, especialista: true },
+      });
+    } catch (error) {
+      if (isPrismaError(error, 'P2003')) {
+        throw new BadRequestException(
+          'El paciente o el especialista indicado no existe.',
+        );
+      }
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} informe`;
+  async remove(id: number) {
+    await this.findOne(id);
+    return this.prisma.informe.delete({ where: { id } });
   }
 }
